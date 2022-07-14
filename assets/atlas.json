@@ -1,0 +1,20 @@
+{
+  "hero_walk": {
+    "x": 104,
+    "y": 0,
+    "w": 16,
+    "h": 16,
+    "frame": 4,
+    "speed": 5,
+    "path": "assets/tileset.png"
+  },
+  "hero_idle": {
+    "x": 104,
+    "y": 16,
+    "w": 16,
+    "h": 16,
+    "frame": 4,
+    "speed": 10,
+    "path": "assets/tileset.png"
+  }
+}
