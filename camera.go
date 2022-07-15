@@ -25,6 +25,8 @@ func (camera *Camera) Update(x, y float64) {
 	camera.y = 0
 	if camera.x < 0 {
 		camera.x = 0
+	} else if camera.x > camera.width*8-240 {
+		camera.x = camera.width*8 - 240
 	}
 	//camera.y = y - 0.5*camera.height
 

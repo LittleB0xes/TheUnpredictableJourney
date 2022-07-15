@@ -28,9 +28,9 @@ func NewGame() *Game {
 	return &Game{
 		tileset:   img,
 		spriteLib: sLib,
-		camera:    createCamera(0, 0, 360, 144),
+		camera:    createCamera(0, 0, 240, 96),
 		hero:      NewHero(0, 20, sLib),
-		level:     createLevelChunck(144, 18),
+		level:     createLevelChunck(96, 12),
 	}
 }
 
@@ -55,7 +55,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return 360, 144
+	return 240, 96
 }
 
 func main() {

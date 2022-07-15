@@ -27,7 +27,7 @@ func createLevelChunck(w, h int) LevelChunck {
 		x := rand.Intn(w)
 		y := rand.Intn(h)
 
-		backMap[x + y * w] = sx + 32*sy
+		backMap[x+y*w] = sx + 32*sy
 	}
 
 	for i := 0; i < w*h; i++ {
@@ -50,7 +50,7 @@ func createLevelChunck(w, h int) LevelChunck {
 		}
 	}
 	// some pit
-	pits_number := 7
+	pits_number := 4
 	min_dist := 10
 	max_dist := 20
 	previous_pit_x := 0
@@ -76,7 +76,7 @@ func createLevelChunck(w, h int) LevelChunck {
 		height:        h,
 		collisionGrid: grid,
 		mapData:       levelMap,
-		backData: backMap,
+		backData:      backMap,
 	}
 
 }
@@ -90,7 +90,7 @@ func (chunck *LevelChunck) Draw(screen *ebiten.Image, tileset *ebiten.Image, cam
 			// 32is the tileset width (in tile)
 			sourceX := 8 * (tile % 32)
 			sourceY := 8 * (tile / 32)
-			op.GeoM.Translate(float64(index%chunck.width)*8 - 0.25 * camX, float64(index/chunck.width)*8-0.25*camY)
+			op.GeoM.Translate(float64(index%chunck.width)*8-0.25*camX, float64(index/chunck.width)*8-0.25*camY)
 			screen.DrawImage(tileset.SubImage(image.Rect(sourceX, sourceY, sourceX+8, sourceY+8)).(*ebiten.Image), op)
 
 		}
