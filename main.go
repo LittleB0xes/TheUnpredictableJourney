@@ -1,8 +1,8 @@
 package main
 
 import (
-	"log"
 	"image/color"
+	"log"
 	"math/rand"
 	"time"
 
@@ -37,6 +37,11 @@ func NewGame() *Game {
 func (g *Game) Update() error {
 	g.hero.Update(&g.level)
 	g.camera.Update(g.hero.x, g.hero.y)
+
+	// Debug inputs
+	if ebiten.IsKeyPressed(ebiten.KeyTab) {
+		g.hero = NewHero(0, 20, g.spriteLib)
+	}
 	return nil
 }
 
