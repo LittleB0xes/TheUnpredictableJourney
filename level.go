@@ -65,10 +65,10 @@ func createLevelChunck(w, h int) LevelChunck {
 
 	}
 	// Add some levelling
-	add_ground_layer(h-2, &grid, &levelMap, w, 0)
+	add_ground_layer(h-2, &grid, &levelMap, w, 0, 0, 0)
 
-	add_ground_layer(h-3, &grid, &levelMap, w, 1)
-	add_ground_layer(h-4, &grid, &levelMap, w, 1)
+	add_ground_layer(h-3, &grid, &levelMap, w, 1, 3, 8)
+	add_ground_layer(h-4, &grid, &levelMap, w, 1, 3, 6)
 
 	return LevelChunck{
 		width:         w,
@@ -80,11 +80,22 @@ func createLevelChunck(w, h int) LevelChunck {
 
 }
 
-func add_ground_layer(current_height int, grid, levelMap *[]int, level_width int, margin_in int) {
+func add_ground_layer(current_height int, grid, levelMap *[]int, level_width int, margin_in int, min, max int) {
+	if min == 0 {
+		min = 4
+	}
+
+	if max == 0 {
+		max = 12
+	}
+
+	if max < min {
+		max = min + 1
+	}
 	x_pos := 0
 	for x_pos < level_width {
 		if rand.Intn(100) < 20 {
-			max_length := 5 + rand.Intn(7)
+			max_length := min + rand.Intn(max-min)
 			for tile := 0; tile < max_length; tile++ {
 
 				// Dont build over pit
