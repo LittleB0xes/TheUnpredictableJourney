@@ -31,6 +31,7 @@ func createLevelChunck(w, h int) LevelChunck {
 		backMap[x+y*w] = sx + 32*sy
 	}
 
+	// Floor Generation
 	for i := 0; i < w*h; i++ {
 		if i/w == h-1 {
 			grid[i] = 1
@@ -42,14 +43,6 @@ func createLevelChunck(w, h int) LevelChunck {
 		}
 	}
 
-	// second path
-	for i := 0; i < w*h; i++ {
-		// create the test ladder
-		if i%w == i/w && (i/w)%3 == 0 {
-			grid[i] = 1
-			levelMap[i] = 258
-		}
-	}
 	// some pit
 	pits_number := 4
 	min_dist := 10
@@ -69,6 +62,50 @@ func createLevelChunck(w, h int) LevelChunck {
 			}
 		}
 		previous_pit_x = new_pit_x
+
+	}
+	// Add some levelling
+	x_pos := 0
+	for x_pos < w {
+		current_hight := h - 2
+		if rand.Intn(100) < 20 {
+			max_length := 4 + rand.Intn(6)
+			for tile := 0; tile < max_length; tile++ {
+
+				// Dont build over pit
+				if grid[x_pos+tile+current_hight*w] == 1 && x_pos+tile < w {
+					grid[x_pos+tile+(current_hight-1)*w] = 1
+					levelMap[x_pos+tile+(current_hight-1)*w] = 258 + rand.Intn(4)
+
+				}
+			}
+			x_pos += max_length + 3
+
+		} else {
+			x_pos += 1
+		}
+
+	}
+
+	x_pos = 0
+	for x_pos < w {
+		current_hight := h - 3
+		if rand.Intn(100) < 35 {
+			max_length := 4 + rand.Intn(6)
+			for tile := 0; tile < max_length; tile++ {
+
+				// Dont build over pit
+				if grid[x_pos+tile+current_hight*w] == 1 && grid[x_pos+tile-1+current_hight*w] == 1 && x_pos+tile < w {
+					grid[x_pos+tile+(current_hight-1)*w] = 1
+					levelMap[x_pos+tile+(current_hight-1)*w] = 258 + rand.Intn(4)
+
+				}
+			}
+			x_pos += max_length + 3
+
+		} else {
+			x_pos += 1
+		}
 
 	}
 

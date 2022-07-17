@@ -28,7 +28,7 @@ func NewGame() *Game {
 	return &Game{
 		tileset:   img,
 		spriteLib: sLib,
-		camera:    createCamera(0, 0, 240, 96),
+		camera:    createCamera(0, 0, 98, 12),
 		hero:      NewHero(0, 20, sLib),
 		level:     createLevelChunck(96, 12),
 	}

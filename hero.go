@@ -74,7 +74,7 @@ func (e *Hero) Update(level *LevelChunck) {
 	if e.dir_x != 0 {
 		e.vx = e.dir_x
 	} else {
-		e.vx *= 0.9
+		e.vx *= 0.75
 	}
 	//~~~~~~~~ IntGrid Collision Checking
 

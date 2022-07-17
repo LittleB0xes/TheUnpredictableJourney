@@ -21,7 +21,7 @@ func createCamera(marginX, marginY float64, w, h int) Camera {
 }
 
 func (camera *Camera) Update(x, y float64) {
-	camera.x = x - 0.5*camera.width
+	camera.x = x - 0.5*(240)
 	camera.y = 0
 	if camera.x < 0 {
 		camera.x = 0
