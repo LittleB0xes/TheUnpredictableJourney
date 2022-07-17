@@ -65,49 +65,10 @@ func createLevelChunck(w, h int) LevelChunck {
 
 	}
 	// Add some levelling
-	x_pos := 0
-	for x_pos < w {
-		current_hight := h - 2
-		if rand.Intn(100) < 20 {
-			max_length := 4 + rand.Intn(6)
-			for tile := 0; tile < max_length; tile++ {
+	add_ground_layer(h-2, &grid, &levelMap, w, 0)
 
-				// Dont build over pit
-				if grid[x_pos+tile+current_hight*w] == 1 && x_pos+tile < w {
-					grid[x_pos+tile+(current_hight-1)*w] = 1
-					levelMap[x_pos+tile+(current_hight-1)*w] = 258 + rand.Intn(4)
-
-				}
-			}
-			x_pos += max_length + 3
-
-		} else {
-			x_pos += 1
-		}
-
-	}
-
-	x_pos = 0
-	for x_pos < w {
-		current_hight := h - 3
-		if rand.Intn(100) < 35 {
-			max_length := 4 + rand.Intn(6)
-			for tile := 0; tile < max_length; tile++ {
-
-				// Dont build over pit
-				if grid[x_pos+tile+current_hight*w] == 1 && grid[x_pos+tile-1+current_hight*w] == 1 && x_pos+tile < w {
-					grid[x_pos+tile+(current_hight-1)*w] = 1
-					levelMap[x_pos+tile+(current_hight-1)*w] = 258 + rand.Intn(4)
-
-				}
-			}
-			x_pos += max_length + 3
-
-		} else {
-			x_pos += 1
-		}
-
-	}
+	add_ground_layer(h-3, &grid, &levelMap, w, 1)
+	add_ground_layer(h-4, &grid, &levelMap, w, 1)
 
 	return LevelChunck{
 		width:         w,
@@ -115,6 +76,28 @@ func createLevelChunck(w, h int) LevelChunck {
 		collisionGrid: grid,
 		mapData:       levelMap,
 		backData:      backMap,
+	}
+
+}
+
+func add_ground_layer(current_height int, grid, levelMap *[]int, level_width int, margin_in int) {
+	x_pos := 0
+	for x_pos < level_width {
+		if rand.Intn(100) < 20 {
+			max_length := 5 + rand.Intn(7)
+			for tile := 0; tile < max_length; tile++ {
+
+				// Dont build over pit
+				if (*grid)[x_pos+tile+current_height*level_width] == 1 && (*grid)[x_pos+tile-margin_in+current_height*level_width] == 1 && x_pos+tile < level_width {
+					(*grid)[x_pos+tile+(current_height-1)*level_width] = 1
+					(*levelMap)[x_pos+tile+(current_height-1)*level_width] = 258 + rand.Intn(4)
+				}
+			}
+			x_pos += max_length + 3
+		} else {
+			x_pos += 1
+		}
+
 	}
 
 }
