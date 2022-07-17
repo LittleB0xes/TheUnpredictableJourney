@@ -80,17 +80,19 @@ func (e *Hero) Update(level *LevelChunck) {
 
 	e.onFloor = false
 
-	destXa := int((e.x + e.vx) / 8.0)
-	destYa := int(e.y / 8.0)
+	destXa := int(e.x+e.vx) / 8
+	destYa := int(e.y) / 8
 
-	destXb := int(e.x / 8.0)
-	destYb := int((e.y + e.vy) / 8.0)
+	destXb := int(e.x) / 8
+	destYb := int(e.y+e.vy) / 8
 
-	tiles := [4]([2]int){
+	tiles := [6]([2]int){
 		[2]int{0, 0},
 		[2]int{0, 1},
 		[2]int{1, 0},
 		[2]int{1, 1},
+		[2]int{-1, 0},
+		[2]int{-1, 1},
 	}
 
 	// Collision on x

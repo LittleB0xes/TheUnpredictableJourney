@@ -20,6 +20,7 @@ func createLevelChunck(w, h int) LevelChunck {
 	levelMap := make([]int, w*h)
 	backMap := make([]int, w*h)
 
+	// Background randomization
 	for i := 0; i < 200; i++ {
 		sx := 10 + rand.Intn(3)
 		sy := rand.Intn(3)
