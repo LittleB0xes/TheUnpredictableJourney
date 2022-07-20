@@ -86,9 +86,23 @@ func beautify_the_ground(grid, levelMap *[]int, level_width, level_height int) {
 		y := i / level_width
 
 		// Add depth in design (darker tile )
+		// If enough place, we can use larger block
 		if (*grid)[i] == 1 {
 			if y-1 > 0 && (*grid)[i-level_width] == 0 {
-				(*levelMap)[i] = 258 + rand.Intn(4)
+				if x > 0 && x < level_width-1 && (*grid)[x-1+y*level_width] == 0 && (*grid)[x+1+y*level_width] == 1 /*&& rand.Intn(100) < 25*/ {
+					(*levelMap)[i] = 256
+					(*levelMap)[i+1] = 257
+					i++
+
+				} else if x < level_width-1 && (*grid)[x-1+y*level_width] == 0 && (*grid)[x+1+y*level_width] == 1 && rand.Intn(100) < 25 {
+					(*levelMap)[i] = 256
+					(*levelMap)[i+1] = 257
+					i++
+
+				} else {
+					(*levelMap)[i] = 258 + rand.Intn(4)
+
+				}
 			} else if (*grid)[i-level_width] == 1 && (*grid)[i-level_width*2] == 1 {
 				(*levelMap)[i] = 258 + 64 + rand.Intn(4)
 
@@ -105,6 +119,21 @@ func beautify_the_ground(grid, levelMap *[]int, level_width, level_height int) {
 		}
 
 	}
+
+	// Big block
+	//for x := -1; x < level_width-2; x += 2 {
+	//	y := level_height - 3
+	//	if rand.Intn(100) < 50 {
+	//		if (*grid)[x+y*level_width] == 1 && (*grid)[x+1+y*level_width] == 1 && (*grid)[x+(y+1)*level_width] == 1 && (*grid)[x+1+(y+1)*level_width] == 1 {
+	//			(*levelMap)[x+y*level_width] = 197
+	//			(*levelMap)[x+1+y*level_width] = 198
+	//			(*levelMap)[x+(y+1)*level_width] = 229
+	//			(*levelMap)[x+1+(y+1)*level_width] = 230
+	//		}
+
+	//	}
+
+	//}
 }
 
 func add_ground_layer(current_height int, grid, levelMap *[]int, level_width int, margin_in int, min, max int) {
