@@ -35,11 +35,9 @@ func createLevelChunck(w, h int) LevelChunck {
 	for i := 0; i < w*h; i++ {
 		if i/w == h-1 {
 			grid[i] = 1
-			levelMap[i] = 258 + 32 + rand.Intn(4)
 
 		} else if i/w == h-2 {
 			grid[i] = 1
-			levelMap[i] = 258 + rand.Intn(4)
 		}
 	}
 
@@ -70,6 +68,8 @@ func createLevelChunck(w, h int) LevelChunck {
 	add_ground_layer(h-3, &grid, &levelMap, w, 1, 3, 8)
 	add_ground_layer(h-4, &grid, &levelMap, w, 1, 3, 6)
 
+	beautify_the_ground(&grid, &levelMap, w, h)
+
 	return LevelChunck{
 		width:         w,
 		height:        h,
@@ -78,6 +78,33 @@ func createLevelChunck(w, h int) LevelChunck {
 		backData:      backMap,
 	}
 
+}
+
+func beautify_the_ground(grid, levelMap *[]int, level_width, level_height int) {
+	for i := 0; i < len(*grid); i++ {
+		x := i % level_width
+		y := i / level_width
+
+		// Add depth in design (darker tile )
+		if (*grid)[i] == 1 {
+			if y-1 > 0 && (*grid)[i-level_width] == 0 {
+				(*levelMap)[i] = 258 + rand.Intn(4)
+			} else if (*grid)[i-level_width] == 1 && (*grid)[i-level_width*2] == 1 {
+				(*levelMap)[i] = 258 + 64 + rand.Intn(4)
+
+			} else {
+				(*levelMap)[i] = 258 + 32 + rand.Intn(4)
+
+			}
+
+			// Border tile need too be lighter
+			if x > 0 && x < level_width-1 && ((*grid)[x-1+y*level_width] == 0 || (*grid)[x+1+y*level_width] == 0) {
+				(*levelMap)[i] = 258 + rand.Intn(4)
+
+			}
+		}
+
+	}
 }
 
 func add_ground_layer(current_height int, grid, levelMap *[]int, level_width int, margin_in int, min, max int) {
