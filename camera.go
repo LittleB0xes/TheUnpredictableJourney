@@ -21,12 +21,18 @@ func createCamera(marginX, marginY float64, w, h int) Camera {
 }
 
 func (camera *Camera) Update(x, y float64) {
-	camera.x = x - 0.5*(240)
+	camera.x = x - 0.5*float64(CanvasWidth)
+	//camera.y = y - 0.5*float64(CanvasHeight)
 	camera.y = 0
 	if camera.x < 0 {
 		camera.x = 0
-	} else if camera.x > (camera.width-1)*8-240 {
-		camera.x = (camera.width-1)*8 - 240
+	} else if camera.x > camera.width*8-float64(CanvasWidth) {
+		camera.x = camera.width*8 - float64(CanvasWidth)
+	}
+	if camera.y < 0 {
+		camera.y = 0
+	} else if camera.y > camera.height*8-float64(CanvasHeight) {
+		camera.y = camera.height*8 - float64(CanvasHeight)
 	}
 	//camera.y = y - 0.5*camera.height
 

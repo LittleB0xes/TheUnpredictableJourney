@@ -18,6 +18,11 @@ type Game struct {
 	level     LevelChunck
 }
 
+const (
+	CanvasWidth  int = 320 //240 //320
+	CanvasHeight int = 96  //180
+)
+
 func NewGame() *Game {
 	rand.Seed(time.Now().UnixNano())
 	img, _, err := ebitenutil.NewImageFromFile("./assets/tileset.png")
@@ -28,7 +33,7 @@ func NewGame() *Game {
 	return &Game{
 		tileset:   img,
 		spriteLib: sLib,
-		camera:    createCamera(0, 0, 98, 12),
+		camera:    createCamera(0, 0, 96, 12),
 		hero:      NewHero(0, 20, sLib),
 		level:     createLevelChunck(96, 12),
 	}
@@ -55,7 +60,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return 240, 96
+	return CanvasWidth, CanvasHeight
+	//return 240, 96
 }
 
 func main() {

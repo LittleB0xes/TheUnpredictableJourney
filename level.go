@@ -98,42 +98,26 @@ func beautify_the_ground(grid, levelMap *[]int, level_width, level_height int) {
 					(*levelMap)[i] = 256
 					(*levelMap)[i+1] = 257
 					i++
-
+				} else if x < level_width-2 && (*grid)[x+2+y*level_width] == 0 && (*grid)[x+1+y*level_width] == 1 {
+					(*levelMap)[i] = 256
+					(*levelMap)[i+1] = 257
+					i++
 				} else {
 					(*levelMap)[i] = 258 + rand.Intn(4)
-
 				}
 			} else if (*grid)[i-level_width] == 1 && (*grid)[i-level_width*2] == 1 {
 				(*levelMap)[i] = 258 + 64 + rand.Intn(4)
 
 			} else {
 				(*levelMap)[i] = 258 + 32 + rand.Intn(4)
-
 			}
 
 			// Border tile need too be lighter
 			if x > 0 && x < level_width-1 && ((*grid)[x-1+y*level_width] == 0 || (*grid)[x+1+y*level_width] == 0) {
 				(*levelMap)[i] = 258 + rand.Intn(4)
-
 			}
 		}
-
 	}
-
-	// Big block
-	//for x := -1; x < level_width-2; x += 2 {
-	//	y := level_height - 3
-	//	if rand.Intn(100) < 50 {
-	//		if (*grid)[x+y*level_width] == 1 && (*grid)[x+1+y*level_width] == 1 && (*grid)[x+(y+1)*level_width] == 1 && (*grid)[x+1+(y+1)*level_width] == 1 {
-	//			(*levelMap)[x+y*level_width] = 197
-	//			(*levelMap)[x+1+y*level_width] = 198
-	//			(*levelMap)[x+(y+1)*level_width] = 229
-	//			(*levelMap)[x+1+(y+1)*level_width] = 230
-	//		}
-
-	//	}
-
-	//}
 }
 
 func add_ground_layer(current_height int, grid, levelMap *[]int, level_width int, margin_in int, min, max int) {
@@ -164,13 +148,10 @@ func add_ground_layer(current_height int, grid, levelMap *[]int, level_width int
 		} else {
 			x_pos += 1
 		}
-
 	}
-
 }
 
 func (chunck *LevelChunck) Draw(screen *ebiten.Image, tileset *ebiten.Image, camX, camY float64) {
-
 	for index, tile := range chunck.backData {
 		if tile != 0 {
 			op := &ebiten.DrawImageOptions{}
@@ -180,9 +161,7 @@ func (chunck *LevelChunck) Draw(screen *ebiten.Image, tileset *ebiten.Image, cam
 			sourceY := 8 * (tile / 32)
 			op.GeoM.Translate(float64(index%chunck.width)*8-0.25*camX, float64(index/chunck.width)*8-0.25*camY)
 			screen.DrawImage(tileset.SubImage(image.Rect(sourceX, sourceY, sourceX+8, sourceY+8)).(*ebiten.Image), op)
-
 		}
-
 	}
 
 	for index, tile := range chunck.mapData {
@@ -194,9 +173,6 @@ func (chunck *LevelChunck) Draw(screen *ebiten.Image, tileset *ebiten.Image, cam
 			sourceY := 8 * (tile / 32)
 			op.GeoM.Translate(float64(index%chunck.width)*8-camX, float64(index/chunck.width)*8-camY)
 			screen.DrawImage(tileset.SubImage(image.Rect(sourceX, sourceY, sourceX+8, sourceY+8)).(*ebiten.Image), op)
-
 		}
-
 	}
-
 }
