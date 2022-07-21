@@ -33,6 +33,9 @@ func createLevelChunck(w, h int) LevelChunck {
 
 	// Floor Generation
 	for i := 0; i < w*h; i++ {
+		if i/w == 0 || i/w == 1 {
+			grid[i] = 1
+		}
 		if i/w == h-1 {
 			grid[i] = 1
 
@@ -105,9 +108,8 @@ func beautify_the_ground(grid, levelMap *[]int, level_width, level_height int) {
 				} else {
 					(*levelMap)[i] = 258 + rand.Intn(4)
 				}
-			} else if (*grid)[i-level_width] == 1 && (*grid)[i-level_width*2] == 1 {
+			} else if y-1 > 0 && (*grid)[i-level_width] == 1 && (*grid)[i-level_width*2] == 1 {
 				(*levelMap)[i] = 258 + 64 + rand.Intn(4)
-
 			} else {
 				(*levelMap)[i] = 258 + 32 + rand.Intn(4)
 			}
