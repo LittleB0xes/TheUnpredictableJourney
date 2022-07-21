@@ -83,6 +83,61 @@ func createLevelChunck(w, h int) LevelChunck {
 
 }
 
+func createCave(w, h int) LevelChunck {
+
+	grid := make([]int, w*h)
+	levelMap := make([]int, w*h)
+
+	// Fill the whole level
+	for i := 0; i < w*h; i++ {
+		grid[i] = 1
+	}
+
+	//
+
+	x := 0
+	yPrevious := h - 2
+	for x < w {
+		roomWidth := 7 + rand.Intn(5)
+		roomHeight := 4 + rand.Intn(4)
+
+		// To ensure that step is allway
+
+		// TODO : Work on this !!!!!
+		yo := 1 + rand.Intn(3)
+		for yo > 3+yPrevious {
+			yo = 1 + rand.Intn(3)
+
+		}
+		yPrevious = yo
+
+		// create a hole
+		for i := 0; i < roomWidth; i++ {
+			for j := 0; j < roomHeight; j++ {
+				grid[x+i+(j+yo)*w] = 0
+			}
+		}
+		x += roomWidth
+
+	}
+
+	// tile filling
+	for i := 0; i < w*h; i++ {
+		if grid[i] == 1 {
+			levelMap[i] = 256 + 2 + rand.Intn(4)
+		}
+
+	}
+
+	return LevelChunck{
+		width:         w,
+		height:        h,
+		collisionGrid: grid,
+		mapData:       levelMap,
+		backData:      []int{},
+	}
+}
+
 func beautify_the_ground(grid, levelMap *[]int, level_width, level_height int) {
 	for i := 0; i < len(*grid); i++ {
 		x := i % level_width
@@ -114,6 +169,9 @@ func beautify_the_ground(grid, levelMap *[]int, level_width, level_height int) {
 				(*levelMap)[i] = 258 + 32 + rand.Intn(4)
 			}
 
+			if y == 1 && (*grid)[i] == 1 {
+				(*levelMap)[i] = 256 + 2 + rand.Intn(4)
+			}
 			// Border tile need too be lighter
 			if x > 0 && x < level_width-1 && ((*grid)[x-1+y*level_width] == 0 || (*grid)[x+1+y*level_width] == 0) {
 				(*levelMap)[i] = 258 + rand.Intn(4)
