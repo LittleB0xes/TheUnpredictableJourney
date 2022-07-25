@@ -34,7 +34,7 @@ func NewGame() *Game {
 		tileset:   img,
 		spriteLib: sLib,
 		camera:    createCamera(0, 0, 96, 12),
-		hero:      NewHero(0, 20, sLib),
+		hero:      NewHero(0, 48, sLib),
 		level:     createCave(96, 12),
 		//level:     createLevelChunck(96, 12),
 	}
@@ -47,6 +47,7 @@ func (g *Game) Update() error {
 	// Debug inputs
 	if ebiten.IsKeyPressed(ebiten.KeyTab) {
 		g.hero = NewHero(0, 20, g.spriteLib)
+		g.level = createCave(96, 12)
 	}
 	return nil
 }

@@ -83,55 +83,74 @@ func createLevelChunck(w, h int) LevelChunck {
 
 }
 
-func createCave(w, h int) LevelChunck {
+func createCave(levelW, levelH int) LevelChunck {
 
-	grid := make([]int, w*h)
-	levelMap := make([]int, w*h)
+	grid := make([]int, levelW*levelH)
+	levelMap := make([]int, levelW*levelH)
 
 	// Fill the whole level
-	for i := 0; i < w*h; i++ {
+	for i := 0; i < levelW*levelH; i++ {
 		grid[i] = 1
 	}
 
-	//
-
 	x := 0
-	yPrevious := h - 2
-	for x < w {
-		roomWidth := 7 + rand.Intn(5)
-		roomHeight := 4 + rand.Intn(4)
+	y := 1
+	roomWidth := 4 + rand.Intn(5)
+	roomHeight := 2 + rand.Intn(levelH-y)
+	for x < levelW {
+		//yo := yPrevious
 
-		// To ensure that step is allway
+		//yo := 1 + rand.Intn(roomHeight-2)
+		//for math.Abs(float64(yo+roomHeight-yPrevious-heightPrevious)) < 2 {
+		//	yo = 1 + rand.Intn(roomHeight-2)
+		//	roomHeight = 4 + rand.Intn(4)
 
-		// TODO : Work on this !!!!!
-		yo := 1 + rand.Intn(3)
-		for yo > 3+yPrevious {
-			yo = 1 + rand.Intn(3)
-
-		}
-		yPrevious = yo
+		//}
 
 		// create a hole
 		for i := 0; i < roomWidth; i++ {
 			for j := 0; j < roomHeight; j++ {
-				grid[x+i+(j+yo)*w] = 0
+				if (i+x) < levelW && (j+y) < levelH { //x+i < levelW-1 && j+yo < levelW-2 && yo+j > 0 {
+					if j+y > levelH-2 {
+						grid[x+i+(j+y)*levelW] = 1
+
+					} else {
+
+						grid[x+i+(j+y)*levelW] = 0
+					}
+
+				}
 			}
 		}
+
+		delta := -3 + rand.Intn(6)
+		yNew := y + delta
+		if yNew < 1 {
+			yNew = 1
+		} else if yNew > levelH-2 {
+			yNew = levelH - 2
+		}
+		roomHeightNew := 2 + rand.Intn(levelH-yNew)
+
+		y = yNew
+		roomHeight = roomHeightNew
+
 		x += roomWidth
 
 	}
 
 	// tile filling
-	for i := 0; i < w*h; i++ {
+	for i := 0; i < levelW*levelH; i++ {
 		if grid[i] == 1 {
 			levelMap[i] = 256 + 2 + rand.Intn(4)
 		}
 
 	}
+	//beautify_the_ground(&grid, &levelMap, levelW, levelH)
 
 	return LevelChunck{
-		width:         w,
-		height:        h,
+		width:         levelW,
+		height:        levelH,
 		collisionGrid: grid,
 		mapData:       levelMap,
 		backData:      []int{},
